@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using HealthcareAPI.Models;
 
 namespace HealthcareAPI.Data
 {
-    public class HealthcareContext : DbContext
+    public class HealthcareContext : IdentityDbContext<User>
     {
         public HealthcareContext(DbContextOptions<HealthcareContext> options) : base(options) { }
 
