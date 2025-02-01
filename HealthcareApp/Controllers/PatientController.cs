@@ -1,3 +1,8 @@
+//Build API Endpoints
+//Secure API Endpoints Based on Roles
+//Protect Patient Management Routes
+//Modify the controller to restrict access using [Authorize(Roles = "HealthcareProfessional")]
+
 using Microsoft.AspNetCore.Mvc;
 using HealthcareAPI.Data;
 using HealthcareAPI.Models;

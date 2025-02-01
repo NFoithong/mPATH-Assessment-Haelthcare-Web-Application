@@ -1,3 +1,6 @@
+//Define the Database Recommendation Models
+
+
 using System.ComponentModel.DataAnnotations;
 
 namespace HealthcareAPI.Models

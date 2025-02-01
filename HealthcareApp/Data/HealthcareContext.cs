@@ -1,3 +1,6 @@
+//Configure Entity Framework (Database Context)
+//Configure Identity & Authentication
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using HealthcareAPI.Models;
