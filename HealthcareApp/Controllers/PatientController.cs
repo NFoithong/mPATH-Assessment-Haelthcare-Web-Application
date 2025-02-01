@@ -40,5 +40,14 @@ namespace HealthcareAPI.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetPatient), new { id = patient.PatientId }, patient);
         }
+
+        //Protect API Routes to restrict access based on roles
+        [Authorize(Roles = "Admin,HealthcareProfessional")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        {
+            return await _context.Patients.Include(p => p.Recommendations).ToListAsync();
+        }
+
     }
 }
