@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using HealthcareBackend;
+using HealthBackend.Models;
 
-namespace HealthcareBackend
+namespace HealthBackend.Data
 {
     public class HealthcareDbContext : DbContext
     {
@@ -13,8 +13,13 @@ namespace HealthcareBackend
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Seed data
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "admin", PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin"), Role = "Admin" });
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Username = "admin",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                Role = "Admin"
+            });
         }
     }
 }
