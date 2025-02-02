@@ -21,6 +21,8 @@ namespace HealthcareAPI.Models
 
         public string Gender { get; set; }
 
+        public string Diagnosis { get; set; }
+
         public List<Recommendation> Recommendations { get; set; } = new();
     }
 }
