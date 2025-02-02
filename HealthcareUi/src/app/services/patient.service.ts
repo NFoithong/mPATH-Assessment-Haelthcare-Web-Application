@@ -12,7 +12,11 @@ export class PatientService {
 
   constructor(private http: HttpClient) { }
 
-  getPatients(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  getPatients(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  updateRecommendation(patientId: string, recommendation: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${patientId}/recommendations`, recommendation);
   }
 }

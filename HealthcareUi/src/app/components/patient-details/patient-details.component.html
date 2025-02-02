@@ -1,0 +1,21 @@
+<mat-card *ngIf="patient">
+  <mat-card-title>{{ patient.name }}</mat-card-title>
+  <mat-card-subtitle>ID: {{ patient.id }}</mat-card-subtitle>
+
+  <mat-divider></mat-divider>
+
+  <h3>Medical History</h3>
+  <ul>
+    <li *ngFor="let history of patient.medicalHistory">{{ history }}</li>
+  </ul>
+
+  <h3>Recommended Screenings</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let rec of patient.recommendations">
+      {{ rec.name }}
+      <mat-checkbox [(ngModel)]="rec.completed" (change)="updateRecommendation(rec)">Completed</mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+
+  <button mat-raised-button color="accent" (click)="goBack()">Back</button>
+</mat-card>
