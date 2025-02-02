@@ -1,0 +1,10 @@
+<div *ngIf="patient">
+  <h2>{{ patient.name }}</h2>
+  <p>Medical Record Number: {{ patient.medicalRecordNumber }}</p>
+  <h3>Recommendations</h3>
+  <ul>
+    <li *ngFor="let rec of patient.recommendations">
+      {{ rec.type }} - {{ rec.isCompleted ? 'Completed' : 'Pending' }}
+    </li>
+  </ul>
+</div>
