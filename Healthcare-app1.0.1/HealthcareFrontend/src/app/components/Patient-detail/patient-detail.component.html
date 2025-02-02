@@ -1,10 +1,16 @@
-<div *ngIf="patient">
-  <h2>{{ patient.name }}</h2>
-  <p>Medical Record Number: {{ patient.medicalRecordNumber }}</p>
-  <h3>Recommendations</h3>
-  <ul>
-    <li *ngFor="let rec of patient.recommendations">
-      {{ rec.type }} - {{ rec.isCompleted ? 'Completed' : 'Pending' }}
-    </li>
-  </ul>
+<div class="container">
+  <h2 class="text-center">{{ patient?.name }}</h2>
+  <p class="text-muted">Medical Record Number: {{ patient?.medicalRecordNumber }}</p>
+
+  <div class="card">
+    <div class="card-body">
+      <h3>Recommendations</h3>
+      <ul class="list-group">
+        <li *ngFor="let rec of patient?.recommendations" class="list-group-item d-flex justify-content-between align-items-center">
+          {{ rec.type }}
+          <span class="badge bg-primary" [ngClass]="{'bg-success': rec.isCompleted}">{{ rec.isCompleted ? 'Completed' : 'Pending' }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
