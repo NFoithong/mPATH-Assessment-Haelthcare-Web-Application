@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HealthBackend.Data;
 using HealthBackend.Models;
+using System.Threading.Tasks;
 
 namespace HealthBackend.Controllers
 {
@@ -33,5 +34,17 @@ namespace HealthBackend.Controllers
 
             return Ok(recommendation);
         }
+        [HttpPost("{id}/complete")]
+        public async Task<IActionResult> CompleteRecommendation(int id)
+        {
+            var recommendation = await _context.Recommendations.FindAsync(id);
+            if (recommendation == null) return NotFound();
+
+            recommendation.IsCompleted = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Recommendation marked as completed" });
+        }
+
     }
 }
