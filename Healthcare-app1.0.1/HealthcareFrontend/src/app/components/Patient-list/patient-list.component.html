@@ -1,9 +1,38 @@
 <div class="container">
   <h2>Patients</h2>
-  <table>
-    <tr *ngFor="let patient of patients">
-      <td>{{ patient.name }}</td>
-      <td>{{ patient.medicalRecordNumber }}</td>
-    </tr>
+
+  <input type="text" [(ngModel)]="searchText" placeholder="Search by name or ID" (input)="loadPatients()" />
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of patients">
+        <td>{{ patient.medicalRecordNumber }}</td>
+        <td>{{ patient.name }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="viewDetails(patient.id)">View Details</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="page === 1">
+        <button class="page-link" (click)="changePage(page - 1)">Previous</button>
+      </li>
+      <li class="page-item" *ngFor="let p of totalPagesArray">
+        <button class="page-link" (click)="changePage(p)">{{ p }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="page === totalPages">
+        <button class="page-link" (click)="changePage(page + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
 </div>
