@@ -5,6 +5,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using HealthcareAPI.Data;
+using Microsoft.AspNetCore.Authorization;
 using HealthcareAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -22,13 +23,15 @@ namespace HealthcareAPI.Controllers
         {
             _context = context;
         }
-
+        // Protect the API route to restrict access based on roles
+        [Authorize(Roles = "Admin,HealthcareProfessional")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
         {
             return await _context.Patients.Include(p => p.Recommendations).ToListAsync();
         }
 
+        [Authorize(Roles = "Admin,HealthcareProfessional")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Patient>> GetPatient(int id)
         {
@@ -38,6 +41,7 @@ namespace HealthcareAPI.Controllers
             return patient;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Patient>> AddPatient(Patient patient)
         {
@@ -46,13 +50,37 @@ namespace HealthcareAPI.Controllers
             return CreatedAtAction(nameof(GetPatient), new { id = patient.PatientId }, patient);
         }
 
-        //Protect API Routes to restrict access based on roles
-        [Authorize(Roles = "Admin,HealthcareProfessional")]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
-        {
-            return await _context.Patients.Include(p => p.Recommendations).ToListAsync();
-        }
+
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        //{
+        //    return await _context.Patients.Include(p => p.Recommendations).ToListAsync();
+        //}
+
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Patient>> GetPatient(int id)
+        //{
+        //    var patient = await _context.Patients.Include(p => p.Recommendations)
+        //                                         .FirstOrDefaultAsync(p => p.PatientId == id);
+        //    if (patient == null) return NotFound();
+        //    return patient;
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult<Patient>> AddPatient(Patient patient)
+        //{
+        //    _context.Patients.Add(patient);
+        //    await _context.SaveChangesAsync();
+        //    return CreatedAtAction(nameof(GetPatient), new { id = patient.PatientId }, patient);
+        //}
+
+        ////Protect API Routes to restrict access based on roles
+        //[Authorize(Roles = "Admin,HealthcareProfessional")]
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        //{
+        //    return await _context.Patients.Include(p => p.Recommendations).ToListAsync();
+        //}
 
     }
 }
