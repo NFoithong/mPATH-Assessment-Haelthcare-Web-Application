@@ -49,6 +49,13 @@ app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+//Ensure CORS settings are enabled in the backend:
+app.UseCors(policy =>
+    policy.AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader());
+
 app.MapControllers();
 
 // Enable Swagger in development
