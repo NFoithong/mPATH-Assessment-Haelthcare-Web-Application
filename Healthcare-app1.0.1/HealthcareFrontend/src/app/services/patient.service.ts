@@ -11,11 +11,24 @@ export class PatientService {
 
   constructor(private http: HttpClient) { }
 
-  getPatients(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(`${this.apiUrl}`);
-  }
+  //getPatients(): Observable<Patient[]> {
+  //  return this.http.get<Patient[]>(`${this.apiUrl}`);
+  //}
 
   getPatientById(id: string | null): Observable<Patient> {
     return this.http.get<Patient>(`${this.apiUrl}/${id}`);
   }
+
+  getPatients(search: string = '', page: number = 1, pageSize: number = 10): Observable<any> {
+    return this.http.get(`${this.apiUrl}/patients`, { params: { search, page, pageSize } });
+  }
+
+  getPatientDetails(id: string): Observable<Patient> {
+    return this.http.get<Patient>(`${this.apiUrl}/${id}`);
+  }
+
+  completeRecommendation(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/recommendations/${id}/complete`, {});
+  }
+
 }

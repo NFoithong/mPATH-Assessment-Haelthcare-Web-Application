@@ -1,16 +1,17 @@
-<div class="container">
-  <h2 class="text-center">{{ patient?.name }}</h2>
-  <p class="text-muted">Medical Record Number: {{ patient?.medicalRecordNumber }}</p>
+<!--Displays recommendations
+Button to mark as completed-->
 
-  <div class="card">
-    <div class="card-body">
-      <h3>Recommendations</h3>
-      <ul class="list-group">
-        <li *ngFor="let rec of patient?.recommendations" class="list-group-item d-flex justify-content-between align-items-center">
-          {{ rec.type }}
-          <span class="badge bg-primary" [ngClass]="{'bg-success': rec.isCompleted}">{{ rec.isCompleted ? 'Completed' : 'Pending' }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div class="container">
+  <h2>{{ patient?.name }}</h2>
+  <p>Medical Record Number: {{ patient?.medicalRecordNumber }}</p>
+
+  <h3>Recommendations</h3>
+  <ul class="list-group">
+    <li *ngFor="let rec of patient?.recommendations" class="list-group-item">
+      {{ rec.type }}
+      <button class="btn btn-success btn-sm float-end" (click)="markCompleted(rec.id)" [disabled]="rec.isCompleted">
+        {{ rec.isCompleted ? 'Completed' : 'Mark as Completed' }}
+      </button>
+    </li>
+  </ul>
 </div>

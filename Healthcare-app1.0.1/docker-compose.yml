@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  backend:
+    build: .
+    container_name: backend-api
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - sqlserver
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=HealthcareDB;User Id=sa;Password=YourStrong!Passw0rd;"
+
+  frontend:
+    build: ./frontend
+    container_name: frontend-app
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+volumes:
+  sqlserver_data:
