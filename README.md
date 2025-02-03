@@ -132,3 +132,18 @@ Once everything is running, open:
 npm cache clean --force
 npm install
 ```
+
+
+## Contact Information
+
+For any questions regarding the project, feel free to reach out to me:
+
+- **Natthaphon Foithong** : n.foithong1983@gmail.com
+
+---
+
+## **License**
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
