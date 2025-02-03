@@ -57,3 +57,35 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+# Setting Up Frontend
+1️ Clone the Frontend Repository
+If you haven't already, clone the frontend repository:
+```git clone https://github.com/your-org/healthcare-frontend.git
+cd healthcare-frontend
+```
+
+2️ Install Dependencies
+Navigate to the frontend directory and install the necessary dependencies:
+```
+npm install
+```
+
+3️ Configure API URL
+Ensure that the frontend is pointing to the correct backend API. Open src/environments/environment.ts and set the API base URL to your local backend:
+```
+typescript
+
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:5000/api'
+};
+```
+
+4️ Run the Frontend Locally
+Now you can run the frontend development server:
+```
+ng serve --open
+```
+The frontend should now be available at http://localhost:4200.
