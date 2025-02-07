@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HealthBackend.Models;
+using HealthcareBackend.Models;
 
-namespace HealthBackend.Repositories
+namespace HealthcareBackend.Repositories
 {
 	public interface IPatientRepository
 	{

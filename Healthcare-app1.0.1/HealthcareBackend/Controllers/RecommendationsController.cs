@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using HealthBackend.Data;
-using HealthBackend.Models;
+using HealthcareBackend.Data;
+using HealthcareBackend.Models;
 using System.Threading.Tasks;
 
-namespace HealthBackend.Controllers
+namespace HealthcareBackend.Controllers
 {
     [Route("api/recommendations")]
     [ApiController]

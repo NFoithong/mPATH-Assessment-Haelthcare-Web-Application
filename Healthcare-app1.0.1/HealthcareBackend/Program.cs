@@ -15,13 +15,15 @@ builder.Services.AddDbContext<HealthcareDbContext>(options =>
 
 // Register services
 builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Authentication setup
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.RequireHttpsMetadata = true;
+        options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -29,36 +31,33 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
         };
     });
 
 builder.Services.AddAuthorization();
 
-// Add controllers and services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Middleware for security headers
+// Middleware for security
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
-//Ensure CORS settings are enabled in the backend:
 app.UseCors(policy =>
-    policy.AllowAnyOrigin()
-          .AllowAnyMethod()
-          .AllowAnyHeader());
+    policy.WithOrigins("https://yourfrontend.com")
+          .AllowMethods("GET", "POST", "PUT", "DELETE")
+          .AllowHeaders("Authorization", "Content-Type"));
 
 app.MapControllers();
 
-// Enable Swagger in development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
