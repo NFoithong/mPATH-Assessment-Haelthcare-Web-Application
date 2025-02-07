@@ -9,13 +9,15 @@ import { DashboardComponent } from './components/Dashboard/dashboard.component';
 import { PatientDetailComponent } from './components/Patient-detail/patient-detail.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe'; // Import the pipe
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    PatientDetailComponent
+    PatientDetailComponent,
+    SanitizeHtmlPipe // Declare the pipe
   ],
   imports: [
     BrowserModule,
