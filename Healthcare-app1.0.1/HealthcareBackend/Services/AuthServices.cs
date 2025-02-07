@@ -1,39 +1,72 @@
-using HealthcareBackend.Models;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
+using HealthcareBackend.Models;
+using HealthcareBackend.Repositories;
+using HealthcareBackend.Utils;
 
 namespace HealthcareBackend.Services
 {
     public class AuthService
     {
-        private readonly IConfiguration _config;
+        private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(IConfiguration config)
+        public AuthService(IUserRepository userRepository, IConfiguration configuration)
         {
-            _config = config;
+            _userRepository = userRepository;
+            _configuration = configuration;
         }
 
-        public string GenerateToken(User user)
+        public string Register(string username, string password, string role)
         {
-            var claims = new[]
+            if (_userRepository.GetByUsername(username) != null)
+                throw new Exception("Username already exists");
+
+            var hashedPassword = PasswordHasher.HashPassword(password);
+
+            var user = new User
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                Username = username,
+                PasswordHash = hashedPassword,
+                Role = role
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            _userRepository.Add(user);
+            return "User registered successfully";
+        }
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                                             _config["Jwt:Issuer"],
-                                             claims,
-                                             expires: DateTime.Now.AddHours(2),
-                                             signingCredentials: creds);
+        public string Authenticate(string username, string password)
+        {
+            var user = _userRepository.GetByUsername(username);
+            if (user == null || !PasswordHasher.VerifyPassword(password, user.PasswordHash))
+                return null; // Invalid login
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return GenerateJwtToken(user);
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, user.Role)
+                }),
+                Expires = DateTime.UtcNow.AddHours(2),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

@@ -21,14 +21,16 @@ namespace HealthcareBackend.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == request.Username);
+            var user = _userService.Authenticate(request.Username, request.Password);
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Invalid credentials" });
+            }
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-                return Unauthorized("Invalid credentials");
-
-            var token = _authService.GenerateToken(user);
-            return Ok(new { Token = token });
+            var token = _jwtService.GenerateToken(user);
+            return Ok(new { token });
         }
+
     }
 
     public class LoginRequest
