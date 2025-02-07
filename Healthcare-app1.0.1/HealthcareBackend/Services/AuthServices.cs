@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System;
 
-namespace Healthcare.API.Services
+namespace HealthcareBackend.Services
 {
     public class AuthService
     {

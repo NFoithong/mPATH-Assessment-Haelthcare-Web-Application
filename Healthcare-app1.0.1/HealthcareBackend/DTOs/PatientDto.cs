@@ -1,4 +1,4 @@
-namespace HealthBackend.DTOs
+namespace HealthcareBackend.DTOs
 {
     public class PatientDto
     {

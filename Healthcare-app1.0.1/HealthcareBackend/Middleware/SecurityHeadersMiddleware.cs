@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace HealthBackend.Middleware
+namespace HealthcareBackend.Middleware
 {
     public class SecurityHeadersMiddleware
     {

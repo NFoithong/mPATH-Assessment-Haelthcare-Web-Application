@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using HealthBackend.Models;
+using HealthcareBackend.Models;
 
-namespace HealthBackend.Data
+namespace HealthcareBackend.Data
 {
     public class HealthcareDbContext : DbContext
     {

@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using HealthBackend.Data;
-using HealthBackend.Models;
+using HealthcareBackend.Data;
+using HealthcareBackend.Models;
 using System.Threading.Tasks;
 using System;
 
-namespace HealthBackend.Controllers
+namespace HealthcareBackend.Controllers
 {
     [Route("api/patients")]
     [ApiController]

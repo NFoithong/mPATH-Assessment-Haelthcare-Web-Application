@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using HealthBackend.Data;
-using HealthBackend.Models;
+using HealthcareBackend.Data;
+using HealthcareBackend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HealthBackend.Repositories
+namespace HealthcareBackend.Repositories
 {
     public class PatientRepository : IPatientRepository
     {
